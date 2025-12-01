@@ -1,0 +1,121 @@
+# QA Box Nginx 配置示例
+# 
+# 使用方法:
+# 1. 复制此文件到 /etc/nginx/sites-available/qa_box
+# 2. 修改 server_name 为你的域名或 IP
+# 3. 修改端口号与 backend/.env 中的配置一致
+# 4. 创建软链接: ln -s /etc/nginx/sites-available/qa_box /etc/nginx/sites-enabled/
+# 5. 测试配置: nginx -t
+# 6. 重载 Nginx: nginx -s reload
+#
+# 注意: 使用 Nginx 后，backend/.env 中的 HOST 应设为 127.0.0.1
+
+# ============================================
+# 方案一: 单端口统一入口 (推荐)
+# 前后端都通过 80/443 端口访问
+# ============================================
+
+server {
+    listen 80;
+    # listen 443 ssl;  # 如果有 SSL 证书，取消注释
+    
+    server_name your-domain.com;  # 改为你的域名或服务器 IP
+    
+    # SSL 配置 (如果有证书)
+    # ssl_certificate /path/to/cert.pem;
+    # ssl_certificate_key /path/to/key.pem;
+    
+    # 日志
+    access_log /var/log/nginx/qa_box_access.log;
+    error_log /var/log/nginx/qa_box_error.log;
+    
+    # 前端静态文件 (直接由 Nginx 提供，性能最佳)
+    root /path/to/qa_box/frontend/dist;  # 改为实际路径
+    index index.html;
+    
+    # 前端路由 (Vue Router history 模式)
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    # 后端 API 代理
+    location /api/ {
+        proxy_pass http://127.0.0.1:18000;  # 与 backend/.env 中的 PORT 一致
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # WebSocket 支持 (如果需要)
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        
+        # 超时设置
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+    
+    # 上传文件代理
+    location /uploads/ {
+        proxy_pass http://127.0.0.1:18000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        
+        # 或者直接提供静态文件 (性能更好):
+        # alias /path/to/qa_box/uploads/;
+    }
+    
+    # 限制上传文件大小
+    client_max_body_size 10M;
+    
+    # 安全头
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+}
+
+
+# ============================================
+# 方案二: 仅代理后端 (简单)
+# 前端仍使用 vite preview
+# ============================================
+
+# server {
+#     listen 80;
+#     server_name api.your-domain.com;  # API 子域名
+#     
+#     location / {
+#         proxy_pass http://127.0.0.1:18000;
+#         proxy_set_header Host $host;
+#         proxy_set_header X-Real-IP $remote_addr;
+#         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#     }
+# }
+
+
+# ============================================
+# 方案三: 增强安全 - 限制管理后台访问
+# ============================================
+
+# 在 server 块内添加:
+
+# 管理后台 IP 白名单
+# location /console-x7k9m {  # 改为你的 ADMIN_ROUTE_PREFIX
+#     # 只允许特定 IP 访问
+#     allow 你的IP地址;
+#     deny all;
+#     
+#     try_files $uri $uri/ /index.html;
+# }
+
+# 管理 API IP 白名单
+# location /api/console-x7k9m {  # 改为你的 ADMIN_ROUTE_PREFIX
+#     allow 你的IP地址;
+#     deny all;
+#     
+#     proxy_pass http://127.0.0.1:18000;
+#     proxy_set_header Host $host;
+#     proxy_set_header X-Real-IP $remote_addr;
+# }
