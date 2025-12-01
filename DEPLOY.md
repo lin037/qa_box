@@ -93,7 +93,7 @@ sudo ufw status
 cd ~
 
 # 克隆项目
-git clone https://github.com/yourusername/qa_box.git
+git clone https://github.com/lin037/qa_box.git
 cd qa_box
 ```
 

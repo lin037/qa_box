@@ -60,7 +60,7 @@ An elegant anonymous question box web application that makes interaction more en
 
 ```bash
 # 1. Clone the project
-git clone https://github.com/yourusername/qa_box.git
+git clone https://github.com/lin037/qa_box.git
 cd qa_box
 
 # 2. Configure environment variables
@@ -275,6 +275,6 @@ Thanks to all open-source project contributors.
 
 **If this project helps you, please give it a ⭐️ Star!**
 
-Made with ❤️ by [Lin037]
+Made with ❤️ by [Lin037](https://github.com/lin037)
 
 </div>

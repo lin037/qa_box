@@ -60,7 +60,7 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/yourusername/qa_box.git
+git clone https://github.com/lin037/qa_box.git
 cd qa_box
 
 # 2. 配置环境变量
@@ -270,6 +270,6 @@ qa_box/
 
 **如果这个项目对你有帮助，请给个 ⭐️ Star 支持一下！**
 
-Made with ❤️ by [Lin037]
+Made with ❤️ by [Lin037](https://github.com/lin037)
 
 </div>

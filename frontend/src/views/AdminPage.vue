@@ -453,7 +453,7 @@
                      <!-- Question -->
                      <div class="group">
                          <div class="text-[10px] font-bold text-gray-300 mb-1.5 tracking-widest">QUESTION</div>
-                         <div class="text-sm font-bold text-gray-900 leading-snug">
+                         <div class="text-sm font-bold text-gray-900 leading-snug whitespace-pre-wrap">
                             {{ currentCardQuestion.content }}
                          </div>
                          <!-- Question Images (if any) -->
@@ -478,7 +478,7 @@
                      <!-- Answer -->
                      <div class="py-2">
                          <div class="text-[10px] font-bold text-gray-300 mb-1.5 tracking-widest">ANSWER</div>
-                         <div class="text-sm text-gray-600 leading-relaxed font-serif">
+                         <div class="text-sm text-gray-600 leading-relaxed font-serif whitespace-pre-wrap">
                             {{ currentCardQuestion.answer_content }}
                          </div>
                          <!-- Answer Images (if any) -->
@@ -679,7 +679,8 @@ const visiblePages = computed(() => {
 })
 
 const formatDate = (dateStr) => {
-  const date = new Date(dateStr)
+  // 后端返回UTC时间，需要转换为本地时间
+  const date = new Date(dateStr + 'Z') // 添加 Z 指示 UTC 时区
   const now = new Date()
   const diff = now - date
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
@@ -813,7 +814,7 @@ const previewImage = (url) => {
 
 const handleLogout = () => {
   localStorage.removeItem('admin_token')
-  router.push('/console-x7k9m/login')
+  router.push(`${ADMIN_ROUTE}/login`)
 }
 
 const confirmDelete = (question) => {

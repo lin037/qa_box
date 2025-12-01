@@ -47,7 +47,9 @@ export default defineConfig(({ mode }) => {
           target: backendUrl,
           changeOrigin: true,
         }
-      }
+      },
+      strictPort: true,
+      allowedHosts: ['localhost', '127.0.0.1']
     }
   }
 })
