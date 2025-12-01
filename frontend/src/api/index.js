@@ -11,7 +11,7 @@ export const questionApi = {
     uploadImage(formData) {
         // Try to get admin token for size limit exemption
         const token = localStorage.getItem('admin_token')
-        const headers = { 'Content-Type': 'multipart/form-data' }
+        const headers = {}
         
         if (token) {
             headers['Authorization'] = `Bearer ${token}`
