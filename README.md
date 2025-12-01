@@ -8,7 +8,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Vue 3](https://img.shields.io/badge/vue-3.x-green.svg)](https://vuejs.org/)
 
-[在线演示](#) | [快速开始](#-快速开始) | [部署教程](DEPLOY.md)
+[在线演示](#) | [快速开始](#-快速开始) | [部署教程](DEPLOY.md) | [English](README_EN.md)
 
 </div>
 

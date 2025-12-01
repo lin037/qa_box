@@ -8,7 +8,7 @@ An elegant anonymous question box web application that makes interaction more en
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Vue 3](https://img.shields.io/badge/vue-3.x-green.svg)](https://vuejs.org/)
 
-[Live Demo](#) | [Quick Start](#-quick-start) | [Deployment Guide](DEPLOY.md)
+[Live Demo](#) | [Quick Start](#-quick-start) | [Deployment Guide](DEPLOY.md) | [📝 中文文档](README.md)
 
 </div>
 
